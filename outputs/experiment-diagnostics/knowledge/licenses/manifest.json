@@ -1,0 +1,35 @@
+[
+  {
+    "package": "pytorch",
+    "url": "https://github.com/pytorch/pytorch/blob/v2.5.1/LICENSE",
+    "git_blob_sha": "9315c4efb68a2a419904031f9657845f7f979baa"
+  },
+  {
+    "package": "transformers",
+    "url": "https://github.com/huggingface/transformers/blob/v4.46.3/LICENSE",
+    "git_blob_sha": "68b7d66c97d66c58de883ed0c451af2b3183e6f3"
+  },
+  {
+    "package": "peft",
+    "url": "https://github.com/huggingface/peft/blob/v0.13.2/LICENSE",
+    "git_blob_sha": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64"
+  },
+  {
+    "package": "peft",
+    "version": "0.21.2",
+    "source_commit": "eaa35c777c7ba554a2a3639ac9c79bb690f39a57",
+    "url": "https://github.com/huggingface/peft/blob/eaa35c777c7ba554a2a3639ac9c79bb690f39a57/LICENSE",
+    "git_blob_sha": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64",
+    "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+    "file": "knowledge/licenses/peft-v0.21.2-LICENSE.txt"
+  },
+  {
+    "package": "transformers",
+    "version": "5.18.0",
+    "source_commit": "a906d3c4b65095f2308b6a6a193e934d03b8eb5d",
+    "url": "https://github.com/huggingface/transformers/blob/a906d3c4b65095f2308b6a6a193e934d03b8eb5d/LICENSE",
+    "git_blob_sha": "68b7d66c97d66c58de883ed0c451af2b3183e6f3",
+    "sha256": "77fd4710def9ec3c0f6225800e0235f15a425abd4a8b03559127fcd782612049",
+    "file": "knowledge/licenses/transformers-v5.18.0-LICENSE.txt"
+  }
+]

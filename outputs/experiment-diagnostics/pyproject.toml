@@ -1,0 +1,18 @@
+[project]
+name = "deerflow-experiment-diagnostics"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = ["deerflow-extension-api==0.2.11"]
+
+[project.entry-points."deerflow.extensions"]
+experiment-diagnostics = "experiment_diagnostics:install"
+
+[project.optional-dependencies]
+agent = ["langchain-core>=1.0,<2", "pyyaml>=6.0.3"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["experiment_diagnostics", "deerflow_case"]

@@ -1,0 +1,7 @@
+{
+  "log": "step=3 loss=nan\nTraceback (most recent call last):\n  File \"<string>\", line 4, in <module>\nAssertionError\n",
+  "code": "import math\nloss = float('nan')\nprint('step=3 loss=nan', flush=True)\nassert math.isfinite(loss)",
+  "experiment_config": {},
+  "environment": {},
+  "question": "根据这些实验材料分析实际问题，给出依据与待执行的验证计划。"
+}

@@ -1,0 +1,21 @@
+config_version: 65
+models:
+  - name: diagnostic-model
+    use: langchain_openai:ChatOpenAI
+    model: $DIAG_MODEL
+    base_url: $DIAG_BASE_URL
+    api_key: $DIAG_API_KEY
+    max_retries: 1
+    timeout: 60
+tools: []
+tool_groups: []
+sandbox:
+  use: deerflow.sandbox.local:LocalSandboxProvider
+  allow_host_bash: false
+memory:
+  enabled: false
+plugins:
+  - use: experiment_diagnostics:install
+    required: true
+    config:
+      knowledge_index: $DIAG_KNOWLEDGE_INDEX

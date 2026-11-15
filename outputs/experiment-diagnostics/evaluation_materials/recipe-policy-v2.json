@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "provenance": "New project-authored cases for label-policy termination and an authorized repair control. Frozen before model calls.",
+  "cases": [
+    {"id":"p01","kind":"blocked","allow_label_rebuild":false,"initial_stage":"forward","oracle":[],"label_problem":"no_supervised_targets","recipe":{"model":{"vocab_size":93},"lora":{"target_modules":["gate_proj"]},"training":{"steps":3,"learning_rate":0.013},"data":{"input_ids":[[12,23,34,45,56]],"labels":[[12,-100,-100,-100,-100]]}}},
+    {"id":"p02","kind":"blocked","allow_label_rebuild":false,"initial_stage":"forward","oracle":[],"label_problem":"label_out_of_range","recipe":{"model":{"vocab_size":61},"lora":{"target_modules":["k_proj","up_proj"]},"training":{"learning_rate":0.022},"data":{"input_ids":[[9,17,25,33,41]],"labels":[[-100,17,25,61,41]]}}},
+    {"id":"p03","kind":"blocked","allow_label_rebuild":false,"initial_stage":"batch_assembly","oracle":["pad_batch"],"label_problem":"label_shape_mismatch","recipe":{"model":{"vocab_size":112},"lora":{"r":4,"alpha":11,"target_modules":["o_proj"]},"training":{"collate":"stack","learning_rate":0.016},"data":{"input_ids":[[4,11,22,44,88],[5,15,25]],"labels":[[4,11,22,44],[5,15]]}}},
+    {"id":"p04","kind":"healthy","allow_label_rebuild":false,"initial_stage":"completed","oracle":[],"recipe":{"model":{"vocab_size":69},"lora":{"r":3,"alpha":7,"target_modules":["v_proj"]},"training":{"learning_rate":0.011},"data":{"input_ids":[[7,18,29,40,51]],"labels":[[74,-100,29,40,51]]}}},
+    {"id":"p05","kind":"repair","allow_label_rebuild":true,"initial_stage":"forward","oracle":["rebuild_causal_labels","enable_gradients"],"recipe":{"model":{"vocab_size":103},"lora":{"r":2,"alpha":9,"target_modules":["q_proj","down_proj"]},"training":{"gradients_enabled":false,"learning_rate":0.023},"data":{"input_ids":[[8,21,34,55,89],[5,18,31,44]],"labels":[[8,21,34,55,110],[5,18,31,44]]}}},
+    {"id":"p06","kind":"repair","allow_label_rebuild":false,"initial_stage":"adapter_injection","oracle":["set_lora_targets","pad_batch"],"recipe":{"model":{"vocab_size":97},"lora":{"r":2,"alpha":5,"target_modules":["projection_in"]},"training":{"collate":"stack","steps":3,"learning_rate":0.018},"data":{"input_ids":[[11,19,31,47,71],[13,29,41],[5,15,35,75]],"labels":[[-100,19,31,47,71],[-100,29,41],[-100,15,35,75]]}}}
+  ]
+}

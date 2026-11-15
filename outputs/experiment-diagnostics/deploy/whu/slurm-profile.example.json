@@ -1,0 +1,11 @@
+{
+  "host": "YOUR_USER@swarm01.whu.edu.cn",
+  "identity_file": "ABSOLUTE_LOCAL_PATH_TO_AUTHORIZED_SSH_KEY",
+  "known_hosts": "ABSOLUTE_LOCAL_PATH_TO_VERIFIED_KNOWN_HOSTS",
+  "root": "/project/YOUR_USER/whu-deerflow",
+  "application": "/project/YOUR_USER/whu-deerflow/state/source-SOURCE_HASH_PREFIX",
+  "python": "/project/YOUR_USER/whu-deerflow/state/training-cu121-py312/bin/python",
+  "model": "/project/YOUR_USER/whu-deerflow/models/Qwen2.5-0.5B-Instruct",
+  "account": "CONFIRMED_BILLING_ACCOUNT",
+  "partition": "gpu"
+}

@@ -1,0 +1,7 @@
+{
+  "log": "Traceback (most recent call last):\n  File \"<string>\", line 2, in <module>\nRuntimeError: stack expects each tensor to be equal size, but got [3] at entry 0 and [5] at entry 1\n",
+  "code": "import torch\ntorch.stack([torch.ones(3), torch.ones(5)])",
+  "experiment_config": {},
+  "environment": {},
+  "question": "根据这些实验材料分析实际问题，给出依据与待执行的验证计划。"
+}

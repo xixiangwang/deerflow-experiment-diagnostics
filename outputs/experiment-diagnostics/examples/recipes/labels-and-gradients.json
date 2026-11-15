@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "name": "selected-labels-and-gradients",
+  "profile": "tiny-qwen2-cpu",
+  "model": {"vocab_size": 48},
+  "lora": {"r": 2, "alpha": 4, "target_modules": ["q_proj", "v_proj"]},
+  "training": {"steps": 2, "learning_rate": 0.03, "gradients_enabled": false, "collate": "pad"},
+  "data": {"input_ids": [[3, 4, 8, 10, 12], [5, 6, 7]], "labels": [[3, 4, 8, 10, 63], [5, 6, 7]]}
+}

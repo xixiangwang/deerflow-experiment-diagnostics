@@ -1,0 +1,34 @@
+config_version: 27
+models:
+  - name: integration-test
+    use: deerflow_case.test_model:IntegrationTestModel
+    model: deterministic-integration-test
+sandbox:
+  use: deerflow.sandbox.local:LocalSandboxProvider
+  allow_host_bash: false
+tools:
+  - name: inspect_lora_experiment
+    group: diagnosis
+    use: deerflow_case.tools:inspect_lora_experiment
+  - name: search_experiment_docs
+    group: diagnosis
+    use: deerflow_case.tools:search_experiment_docs
+  - name: validate_lora_fix
+    group: diagnosis
+    use: deerflow_case.tools:validate_lora_fix
+tool_groups:
+  - name: diagnosis
+memory:
+  enabled: false
+title:
+  enabled: false
+summarization:
+  enabled: false
+token_usage:
+  enabled: false
+tool_search:
+  enabled: false
+skill_evolution:
+  enabled: false
+database:
+  backend: memory

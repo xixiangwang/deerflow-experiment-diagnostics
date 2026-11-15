@@ -1,0 +1,121 @@
+{
+  "version": 1,
+  "review_axes": ["diagnosis", "verification", "calibration"],
+  "cases": [
+    {
+      "id": "i01", "evidence": "selected_report_fields",
+      "source": "https://github.com/huggingface/transformers/issues/22119",
+      "reference": "https://github.com/huggingface/transformers/blob/v4.26.1/src/transformers/trainer.py",
+      "rubric": {
+        "diagnosis": "说明 Trainer 按 forward 签名提前移除原始 text 列，导致惰性 transform 无法构造模型输入，并联系首批索引异常。",
+        "verification": "提出保留原始列或预先 map 分词，且在训练前检查实际数据加载器第一批的键或形状。",
+        "calibration": "将修复写成待验证方案，避免声称原训练数据确实为空或把其他版本资料当作当前版本证明。"
+      },
+      "material": {
+        "log": "IndexError: Invalid key: 664 is out of bounds for size 0",
+        "environment": {"versions": {"transformers": "4.26.1", "torch": "1.13.1+cu116"}, "python": "3.10.8"},
+        "experiment_config": {"pipeline": "Trainer", "dataset_columns_before_fetch": ["text"], "transform_api": "Dataset.with_transform", "transform_outputs": ["input_ids", "attention_mask"], "failure_point": "读取第一个训练 batch"},
+        "question": "这个数据加载失败可能由什么引起，怎样验证最小改动？"
+      }
+    },
+    {
+      "id": "i02", "evidence": "selected_report_fields",
+      "source": "https://github.com/huggingface/transformers/issues/23042",
+      "reference": "https://github.com/huggingface/transformers/pull/23131",
+      "rubric": {
+        "diagnosis": "识别该版本生成路径可能对三维 inputs_embeds 做 token ID 的 padding 检测，产生误报。",
+        "verification": "建议检查或更新警告逻辑，并用同一 token 序列、对应 embedding 和同条件生成对照来复查输出。",
+        "calibration": "区分警告与乱码，避免断言仅设左填充或修正警告就解决输出质量。"
+      },
+      "material": {
+        "log": "Warning: right-padding was detected during decoder-only generation.\n使用 inputs_embeds 时生成输出异常。传入 input_ids 时同一模型表现正常。",
+        "environment": {"versions": {"transformers": "4.28.0"}, "python": "3.10.11"},
+        "experiment_config": {"architecture": "LLaMA", "generation_input": "inputs_embeds", "contains_pad_tokens_as_reported": false, "pad_token_id_source": "tokenizer.pad_token_id"},
+        "question": "这个警告能解释生成异常吗？怎样把两者核对清楚？"
+      }
+    },
+    {
+      "id": "i03", "evidence": "selected_report_fields",
+      "source": "https://github.com/pytorch/pytorch/issues/127176",
+      "reference": "https://github.com/pytorch/pytorch/issues/127176",
+      "rubric": {
+        "diagnosis": "连接 BF16 加载和 fp16=True 启动的 GradScaler，定位失败在梯度 unscale，区分与 checkpointing 或 flash attention 的旁路提示。",
+        "verification": "建议统一精度策略，BF16 路线关闭 FP16 scaler 并按硬件能力选择 BF16，或转为一致的 FP32 路线，检查单步梯度和更新。",
+        "calibration": "将精度变更和硬件支持视作待核对，避免断言需关闭全部 AMP 或简单关闭梯度裁剪就解决。"
+      },
+      "material": {
+        "log": "model.dtype= torch.bfloat16\n训练在 accelerator.clip_grad_norm_ -> scaler.unscale_ 时退出。\nRuntimeError: _amp_foreach_non_finite_check_and_unscale_cuda not implemented for BFloat16",
+        "experiment_config": {"architecture": "Llama 3 8B", "method": "LoRA", "model_load_dtype": "bfloat16", "fp16": true, "gradient_checkpointing": true, "target_modules": ["q_proj", "k_proj", "v_proj"]},
+        "question": "为什么在梯度裁剪时失败，应先核对哪些设置？"
+      }
+    },
+    {
+      "id": "i04", "evidence": "selected_report_fields",
+      "source": "https://github.com/huggingface/accelerate/issues/2311",
+      "reference": "https://github.com/huggingface/accelerate/issues/2311",
+      "rubric": {
+        "diagnosis": "指出 auto device map 按层跨卡分放与当前多进程数据并行启动冲突，报错在 prepare 阶段。",
+        "verification": "提出单进程分放方案或 FSDP/ZeRO 等明确的分片训练路径，并检查进程数及实际设备映射。",
+        "calibration": "保留单卡放不下的约束，避免把每卡复制整个模型当作可行修复或建议绕过检查。"
+      },
+      "material": {
+        "log": "accelerator.prepare(model, optimizer) raised a ValueError.\nAccelerate rejected distributed training for a model loaded with device_map='auto'.",
+        "experiment_config": {"trainer": "SFTTrainer", "model_class": "AutoModelForCausalLM", "device_map": "auto", "torch_dtype": "float16", "launch_mode": "distributed", "single_gpu_memory_reported_insufficient": true},
+        "environment": {"accelerators": "4 x RTX 4090, 24 GB each"},
+        "question": "怎样保留使用多张卡的需求，并避开加载与启动方式的冲突？"
+      }
+    },
+    {
+      "id": "i05", "evidence": "selected_report_fields",
+      "source": "https://github.com/huggingface/peft/issues/3929",
+      "reference": "https://github.com/huggingface/peft/pull/3948",
+      "rubric": {
+        "diagnosis": "把 FP16/BF16 条件下的 adapter dtype 转换与 LoRA 共享存储失效联系起来，区分基础权重绑定与 adapter 绑定。",
+        "verification": "比较关闭 autocast_adapter_dtype 或 FP32 对照，用共享存储检查和一次更新后的差异作为验证信号。",
+        "calibration": "基于给定开发版本与实际对照陈述，避免保证某个已发布版本包含修复或把关闭 dtype 转换当作所有训练场景的通用修复。"
+      },
+      "material": {
+        "log": "FP32 路线的两个适配器张量共享存储，SGD 一步后差值为 0。\nBF16 路线使用默认 adapter dtype 设置，两者都变成 FP32，但不再共享存储，更新后最大差值约为 1.831。",
+        "environment": {"versions": {"peft": "0.21.3.dev0", "transformers": "5.19.0", "torch": "2.14.1"}, "device": "CPU", "peft_commit": "9db0f37"},
+        "experiment_config": {"model": "tiny random Llama", "tie_word_embeddings": true, "ensure_weight_tying": true, "target_modules": ["embed_tokens", "lm_head"], "autocast_adapter_dtype": true, "steps": 1},
+        "question": "是什么环节可能让两个适配器分离，如何确认绑定确实恢复？"
+      }
+    },
+    {
+      "id": "i06", "evidence": "selected_report_fields",
+      "source": "https://github.com/pytorch/pytorch/issues/178057",
+      "reference": "https://github.com/pytorch/pytorch/issues/178057",
+      "rubric": {
+        "diagnosis": "指出日志中 PyTorch 自身分配和保留都是零，现有信息不足以认定其缓存分配器内部碎片或内存泄漏。",
+        "verification": "要求采集同一时点的 GPU 进程和显存或 WDDM 预算，并做干净进程或不同分配规模的对照。",
+        "calibration": "将其他进程、驱动/系统显存管理等作为候选，避免把 expandable_segments、empty_cache 或重启当作已证实修复。"
+      },
+      "material": {
+        "log": "torch.OutOfMemoryError: CUDA out of memory.\nRequested allocation: 14.90 GiB. GPU capacity: 24.00 GiB. Reported free: 22.79 GiB.\nPyTorch allocated: 0 bytes. PyTorch reserved but unallocated: 0 bytes.",
+        "environment": {"versions": {"torch": "2.10.0+cu130"}, "gpu": "RTX 3090", "os": "Windows 11"},
+        "experiment_config": {"workload": "单次创建约 14.9 GiB 的 CUDA float32 张量"},
+        "question": "目前能确认是哪里导致分配失败吗？下一步应收集什么？"
+      }
+    },
+    {
+      "id": "i07", "evidence": "log_only_control",
+      "source": "https://github.com/huggingface/transformers/issues/22119",
+      "rubric": {
+        "diagnosis": "仅把异常定位为对可见尺寸为零的对象做索引，将具体原因保留为多个可能。",
+        "verification": "明确索取 traceback、数据集大小或列、取样或预处理代码中的至少两类。",
+        "calibration": "明确证据不足，避免据此锁定 Trainer 删列、真实数据为空或单一根因。"
+      },
+      "material": {"log": "IndexError: Invalid key: 664 is out of bounds for size 0", "question": "应该先怎么排查？"}
+    },
+    {
+      "id": "i08", "evidence": "log_only_control",
+      "source": "https://github.com/pytorch/pytorch/issues/127176",
+      "rubric": {
+        "diagnosis": "识别这是 BF16 张量进入 unscale 运算时的失败，保留具体触发配置的判断。",
+        "verification": "要求采集参数/梯度 dtype、scaler 或 AMP 设置、完整调用栈或运行版本中的至少两类。",
+        "calibration": "明确当前只能定位失败阶段，避免自行填入 Trainer fp16=True、具体硬件或已验证修复。"
+      },
+      "material": {"log": "RuntimeError: _amp_foreach_non_finite_check_and_unscale_cuda not implemented for BFloat16", "question": "这个错误目前能说明什么，怎样继续排查？"}
+    }
+  ]
+}

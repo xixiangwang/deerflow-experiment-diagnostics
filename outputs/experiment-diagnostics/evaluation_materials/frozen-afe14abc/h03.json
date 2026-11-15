@@ -1,0 +1,7 @@
+{
+  "log": "Traceback (most recent call last):\n  File \"<string>\", line 2, in <module>\n  File \"functional.py\", line 3479, in cross_entropy\n    return torch._C._nn.cross_entropy_loss(\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nIndexError: Target 5 is out of bounds.\n",
+  "code": "import torch\ntorch.nn.functional.cross_entropy(torch.zeros(1,3), torch.tensor([5]))",
+  "experiment_config": {},
+  "environment": {},
+  "question": "根据这些实验材料分析实际问题，给出依据与待执行的验证计划。"
+}

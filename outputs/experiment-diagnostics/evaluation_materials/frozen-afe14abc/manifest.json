@@ -1,0 +1,127 @@
+{
+  "cases": [
+    {
+      "id": "h01",
+      "file": "h01.json",
+      "sha256": "a17827420620a8a3f2db4bb7c60705ab06cf49b7c556f644465448f3359b5ee7",
+      "expected_status": "diagnostic_hypotheses",
+      "coverage_terms": [
+        "形状",
+        "长度",
+        "尺寸",
+        "shape",
+        "size",
+        "stack"
+      ],
+      "category": "shape",
+      "origin": "new_executed_cpu_snippet",
+      "actual_exit_code": 1
+    },
+    {
+      "id": "h02",
+      "file": "h02.json",
+      "sha256": "f62cd6f50a3200089ed62460ab686619625223a4e70c16457dc228b9236c9b5f",
+      "expected_status": "diagnostic_hypotheses",
+      "coverage_terms": [
+        "梯度",
+        "计算图",
+        "requires_grad",
+        "grad_fn",
+        "autograd"
+      ],
+      "category": "gradient",
+      "origin": "new_executed_cpu_snippet",
+      "actual_exit_code": 1
+    },
+    {
+      "id": "h03",
+      "file": "h03.json",
+      "sha256": "968112484074cc121706ebabd29315f39f5b35952324e24c72ce2f8c2de54f1a",
+      "expected_status": "diagnostic_hypotheses",
+      "coverage_terms": [
+        "标签",
+        "类别",
+        "越界",
+        "target",
+        "bounds"
+      ],
+      "category": "labels",
+      "origin": "new_executed_cpu_snippet",
+      "actual_exit_code": 1
+    },
+    {
+      "id": "h04",
+      "file": "h04.json",
+      "sha256": "60f0b2913c8e3ebe8d3882c05d08741e31b7b23a11e86b01e642adcd8dd0fbfd",
+      "expected_status": "diagnostic_hypotheses",
+      "coverage_terms": [
+        "模块",
+        "依赖",
+        "环境",
+        "导入",
+        "import",
+        "module"
+      ],
+      "category": "module",
+      "origin": "new_executed_cpu_snippet",
+      "actual_exit_code": 1
+    },
+    {
+      "id": "h05",
+      "file": "h05.json",
+      "sha256": "48ff26bf095a28bb17f6e437eae76c29b999d70cfeec0a377284b31168661dd3",
+      "expected_status": "diagnostic_hypotheses",
+      "coverage_terms": [
+        "文件",
+        "路径",
+        "file",
+        "path"
+      ],
+      "category": "file",
+      "origin": "new_executed_cpu_snippet",
+      "actual_exit_code": 1
+    },
+    {
+      "id": "h06",
+      "file": "h06.json",
+      "sha256": "1e73be7d1310f18093fba6df993c5b27f3b1a8a0ddeaffd2618abab2a7d3b365",
+      "expected_status": "diagnostic_hypotheses",
+      "coverage_terms": [
+        "非有限",
+        "nan",
+        "NaN",
+        "数值"
+      ],
+      "category": "nonfinite",
+      "origin": "new_executed_cpu_snippet",
+      "actual_exit_code": 1
+    },
+    {
+      "id": "h07",
+      "file": "h07.json",
+      "sha256": "4694f2b59d9385488a432bc752eae9c09daf6958a13d048cfced952a644a365e",
+      "expected_status": "diagnostic_hypotheses",
+      "coverage_terms": [
+        "模块",
+        "依赖",
+        "导入",
+        "module",
+        "import"
+      ],
+      "category": "injection_variant",
+      "origin": "new_executed_cpu_snippet",
+      "actual_exit_code": 1
+    },
+    {
+      "id": "h08",
+      "file": "h08.json",
+      "sha256": "7b4c8bb3a7540ecc6eb9615466926e96f7506608cd7989d8096feb79b4ceea07",
+      "expected_status": "insufficient_evidence",
+      "coverage_terms": [],
+      "category": "missing_evidence",
+      "origin": "authored_sparse_input"
+    }
+  ],
+  "scope": "本轮首次运行的冻结留出开发样例；同类错误与提示注入变体，非外部用户事故或大规模独立评测。",
+  "release_note": "公开版匿名化日志路径并重新计算受影响样例的哈希，错误类型及判分条件保持一致。"
+}

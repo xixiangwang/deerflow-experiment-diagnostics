@@ -1,0 +1,19 @@
+services:
+  console:
+    build:
+      context: ../../../..
+      dockerfile: outputs/experiment-diagnostics/deploy/agent/Dockerfile
+    ports:
+      - "127.0.0.1:8890:8890"
+    environment:
+      DIAG_API_KEY: "${DIAG_API_KEY:?Provide the model API key in the invoking shell}"
+      DIAG_ACCESS_TOKEN: "${DIAG_ACCESS_TOKEN:?Provide a separate console access token}"
+      DIAG_BASE_URL: "${DIAG_BASE_URL:-https://api.deepseek.com}"
+      DIAG_MODEL: "${DIAG_MODEL:-deepseek-flash}"
+    volumes:
+      - work:/app/work
+      - reports:/app/outputs/experiment-diagnostics/reports
+    restart: unless-stopped
+volumes:
+  work:
+  reports:

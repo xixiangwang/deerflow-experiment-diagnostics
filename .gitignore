@@ -1,0 +1,17 @@
+/.venv/
+/work/
+/outputs/deer-flow/
+/outputs/deer-flow-v2.0/
+/outputs/experiment-diagnostics/knowledge/*.sqlite3*
+/outputs/experiment-diagnostics/reports/*
+!/outputs/experiment-diagnostics/reports/.gitkeep
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.env
+.env.*
+*.pem
+*.key
+*.safetensors
+*.lock.local
+slurm-profile.json

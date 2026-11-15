@@ -1,0 +1,7 @@
+{
+  "log": "Traceback (most recent call last):\n  File \"<string>\", line 3, in <module>\n  File \"_tensor.py\", line 581, in backward\n    torch.autograd.backward(\n  File \"__init__.py\", line 347, in backward\n    _engine_run_backward(\n  File \"graph.py\", line 825, in _engine_run_backward\n    return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nRuntimeError: element 0 of tensors does not require grad and does not have a grad_fn\n",
+  "code": "import torch\nx = torch.tensor(3.0)\n(x * x).backward()",
+  "experiment_config": {},
+  "environment": {},
+  "question": "根据这些实验材料分析实际问题，给出依据与待执行的验证计划。"
+}

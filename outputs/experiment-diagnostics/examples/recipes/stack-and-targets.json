@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "name": "selected-stack-and-targets",
+  "profile": "tiny-qwen2-cpu",
+  "model": {"vocab_size": 48},
+  "lora": {"r": 3, "alpha": 6, "target_modules": ["missing_projection"]},
+  "training": {"steps": 2, "learning_rate": 0.025, "gradients_enabled": true, "collate": "stack"},
+  "data": {"input_ids": [[2, 5, 7, 9, 12, 14], [3, 6, 8, 10]]}
+}

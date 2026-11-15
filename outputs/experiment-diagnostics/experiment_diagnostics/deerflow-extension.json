@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "id": "research.experiment_diagnostics",
+  "locales": {
+    "zh-CN": {
+      "title": "实验故障诊断",
+      "description": "对提交的实验日志和配置执行只读规则检查，并返回证据与验证建议。",
+      "usage": [{"title": "检查实验", "description": "提交日志与配置，请求调用 diagnose_experiment；结果是候选原因，需用实际实验验证。"}]
+    }
+  }
+}

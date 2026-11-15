@@ -1,0 +1,11 @@
+{
+  "scope": "开发回归集，不是独立终审集。标签只由评测器读取，不放入 Agent 提示词。",
+  "cases": [
+    {"id": "exp-101", "expected_status": "verified_repair", "expected_fix": "set_target_modules"},
+    {"id": "exp-102", "expected_status": "verified_repair", "expected_fix": "pad_sequences"},
+    {"id": "exp-103", "expected_status": "verified_repair", "expected_fix": "enable_grad"},
+    {"id": "exp-104", "expected_status": "verified_repair", "expected_fix": "restore_label_alignment"},
+    {"id": "exp-105", "expected_status": "no_fault_observed", "expected_fix": null},
+    {"id": "exp-106", "expected_status": "insufficient_evidence", "expected_fix": null}
+  ]
+}

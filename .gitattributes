@@ -1,0 +1,5 @@
+* text=auto
+*.sh text eol=lf
+*.sbatch text eol=lf
+outputs/experiment-diagnostics/knowledge/raw/** -text
+outputs/experiment-diagnostics/evaluation_materials/** -text
